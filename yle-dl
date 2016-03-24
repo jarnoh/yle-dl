@@ -946,6 +946,16 @@ class Areena2014Downloader(AreenaUtils, KalturaUtils):
             self.localized_text(itemTitleObject, 'sv') or \
             'areena'
 
+        seasonNumber = program.get('partOfSeason',{}).get('seasonNumber')
+        episodeNumber = program.get('episodeNumber')
+        
+        if episodeNumber:
+        	# season prefix
+        	episodeTag=" "+ str((seasonNumber and "S%02iE" % seasonNumber) or "")
+        	# episode with two digits if season 
+        	episodeTag+=((seasonNumber and "%02i" or "%i") % episodeNumber)
+        	title += episodeTag
+
         promoTitleObject = program.get('promotionTitle')
         promotionTitle = self.localized_text(promoTitleObject) or \
             self.localized_text(promoTitleObject, 'sv')
@@ -953,7 +963,7 @@ class Areena2014Downloader(AreenaUtils, KalturaUtils):
             title += ": " + promotionTitle
 
         date = self.publish_date(program_info)
-        if date:
+        if not episodeNumber and date:
             title += '-' + date.replace('/', '-').replace(' ', '-')
 
         return title
