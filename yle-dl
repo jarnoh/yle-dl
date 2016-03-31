@@ -741,6 +741,10 @@ class Areena2014Downloader(AreenaUtils, KalturaUtils):
                 return RD_FAILED
 
             outputfile = downloader.output_filename()
+            
+            if not outputfile: # outputfile is none when when skipping existing files
+            	return RD_SUCCESS
+            
             self.download_subtitles(clip.subtitles, filters, outputfile)
             return downloader.save_stream()
 
@@ -964,7 +968,7 @@ class Areena2014Downloader(AreenaUtils, KalturaUtils):
 
         date = self.publish_date(program_info)
         if not episodeNumber and date:
-            title += '-' + date.replace('/', '-').replace(' ', '-')
+            title += '-' + date.replace('/', '-').replace(' ', '-').replace('+02:00', '').replace('+03:00', '').replace('-', '').replace(':', '')
 
         return title
 
@@ -1408,6 +1412,11 @@ class BaseDownloader(object):
         filename = proposed
         basename, ext = os.path.splitext(filename)
         while os.path.exists(filename.encode(enc, 'replace')):
+        
+            if skip_existing:
+              log(u'%s exists, skipping' % filename)
+              return None
+        
             log(u'%s exists, trying an alternative name' % filename)
             filename = basename + '-' + str(i) + ext
             i += 1
@@ -1656,7 +1665,7 @@ class YoutubeDLHDSDump(BaseDownloader):
         }
 
         dlopts = {
-            'nopart': True,
+            'nopart': not skip_existing,
             'continuedl': outputfile != '-' and
             self.is_resume_job(self.extra_argv)
         }
@@ -1760,6 +1769,8 @@ def main():
     destdir = None
     pipe = False
     backend_names = list(DEFAULT_HDS_BACKENDS)
+    global skip_existing 
+    skip_existing = False
 
     # Is sys.getfilesystemencoding() the correct encoding for
     # sys.argv?
@@ -1775,6 +1786,8 @@ def main():
             rtmpdumpargs.append(arg)
         elif arg in ['--help', '-h']:
             show_usage = True
+        elif arg in ['--skipexisting']:
+            skip_existing = True
         elif arg in ['--latestepisode']:
             latest_episode = True
         elif arg == '--showurl':
