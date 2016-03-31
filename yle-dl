@@ -961,6 +961,7 @@ class Areena2014Downloader(AreenaUtils, KalturaUtils):
         	title += episodeTag
 
         promoTitleObject = program.get('promotionTitle')
+        promoTitleObject = promoTitleObject or itemTitleObject # fixes http://areena.yle.fi/1-554671 missing description
         promotionTitle = self.localized_text(promoTitleObject) or \
             self.localized_text(promoTitleObject, 'sv')
         if promotionTitle and not promotionTitle.startswith(title):
