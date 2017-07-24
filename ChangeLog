@@ -1,6 +1,72 @@
 download videos from Yle servers
-Copyright 2009-2016 Antti Ajanki
+Copyright 2009-2017 Antti Ajanki
 Distributed under the GPL v3
+
+xx xxx 2017, Version Next
+
+- Fixed the recording of live radio streams
+- New option --duration for limitting the max duration to download
+
+19 Jul 2017, Version 2.20
+
+- Use setuptools for building and installing
+- The installation command has changed, see README.md
+
+4 Jul 2017, Version 2.19
+
+- Fixed a bug introduced in the previous version that caused some videos to fail
+- Print the URL being processed when downloading several URLs
+
+2 Jul 2017, Version 2.18
+
+- Some HTML5 streams were not being downloaded correctly
+- Append an extension to the output file name if not given on the command line
+
+18 Jun 2017, Version 2.17
+
+- Support for the HLS streams on Areena
+- New dependency: ffmpeg
+
+30 May 2017, Version 2.16
+
+- Improved support for Elävä arkisto and Svenska Arkivet
+- Option --ratelimit for limiting bandwidth consumption during download
+
+7 Mar 2017, Version 2.15
+
+- Improve support for Areena clips
+
+21 Jan 2017, Version 2.14
+
+- Better support for Yle Arkivet
+- Include episode number in the output filename
+
+6 Dec 2016, Version 2.13
+
+- Fix downloading of Areena HTTP streams
+- Support SOCKS proxies on youtube-dl backend
+
+24 Sep 2016, Version 2.12
+
+- Support Areena HTTPS URLs
+- Implement piping for HTTP streams
+
+25 Aug 2016, Version 2.11
+
+- Ability to select the audio language if multiple ones are available
+- Fix output file names of Swedish language streams
+
+29 Jul 2016, Version 2.10.3
+
+- Ability to call a postprocessing script after a successful download
+- Improve video detection on yle.fi/uutiset
+
+5 Jul 2016, Version 2.10.2
+
+- Updated installation instructions for Ubuntu 16.04
+- Process several URLs read from a file using the -i argument
+- Use --proxy also for video data, not just for metadata
+- Download subtitles when writing the output to a pipe
 
 7 Feb 2016, Version 2.10.1
 
